@@ -1,0 +1,132 @@
+#
+# This is a Shiny web application. You can run the application by clicking
+# the 'Run App' button above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+# Loading packages ----
+library(shiny)
+library(tidyverse)
+library(ggthemes)
+
+# load data ---- 
+#read in data
+cdc <- read_delim("cdc.txt", delim = "|") %>% 
+    mutate(
+        exerany = factor(exerany, levels = c(1, 0), labels = c("Yes", "No")),
+        hlthplan = factor(hlthplan, levels = c(1, 0), labels = c("Yes", "No")),
+        smoke100 = factor(smoke100, levels = c(1, 0), labels = c("Yes", "No")),
+        gender = factor(gender, levels = c("f", "m"), labels = c("Female", "Male")),
+        genhlth = factor(genhlth,
+                         levels = c("excellent", "very good", "good", "fair", "poor"),
+                         labels= c("Excellent", "Very Good", "Good", "Fair", "Poor")
+                         )
+    )
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+    
+    #title of application
+    titlePanel(strong("CDC BRFSS Histograms")),
+    
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        position = "right",
+    
+        sidebarPanel(
+            #drop down widget to select x variable
+            selectInput(
+                inputId = "x_var",
+                label = "Select Variable:",
+                choices = list(
+                    "Actual Weight" = "weight",
+                    "Desired Weight" = "wtdesire",
+                    "Height" = "height"
+                )
+            ),
+            #bins for histrogram
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 5,
+                        max = 50,
+                        value = 30,
+                        animate = TRUE),
+            #radio buttons for the fill variable
+            radioButtons(
+               inputId = "fill_var",
+               label = "Select Fill/Legend Variable",
+               choices = list(
+                   "General Health",
+                   "Health Coverage", 
+                   "Exercised in Past Month",
+                   "Smoked 100 Cigarettes", 
+                   "Gender"
+               ), selected = "Gender"
+            )
+        ),
+        
+        # Show a plot of the generated distribution
+        mainPanel(
+            plotOutput("histPlot")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+    
+    output$histPlot <- renderPlot({
+        # histogram: user supplied x variable
+        var_hist <- case_when(
+            input$x_var == "weight" ~ pull(cdc, weight),
+            input$x_var == "wtdesire" ~ pull(cdc, wtdesire),
+            input$x_var == "height" ~ pull(cdc, height)
+        )
+        
+        #x-axis label
+        x_label <- switch(input$x_var,
+                          "weight" = "Actual Weight in Pounds",
+                          "wtdesire" = "Desired Weight in Pounds",
+                          "height" = "Height in Inches"
+        )
+        
+        # user supplied fill variable
+        
+        fill_hist <- switch(input$fill_var,
+                          "General Health" = cdc$genhlth,
+                          "Health Coverage" = cdc$hlthplan,
+                          "Exercised in Past Month" = cdc$exerany,
+                          "Smoked 100 Cigarettes" = cdc$smoke100,
+                          "Gender" = cdc$gender
+        )
+        
+        # generate bins based on input$bins from ui.R
+        x    <- var_hist
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+        
+        ggplot(cdc, aes(x = x, fill = fill_hist)) +
+            geom_histogram(breaks = bins, color = "black") + 
+            xlab("Weight in Pounds") +
+            ylab("Count") +
+            
+            theme_fivethirtyeight() +
+            theme(
+                axis.title = element_text(),
+                legend.position = 'top',
+                legend.direction = 'horizontal',
+                legend.text.align = 0.5
+            ) +
+            labs(
+                x = x_label,
+                y = "Count"
+            ) +
+            guides(fill = guide_legend(title.position = "top")) + 
+            scale_fill_discrete(name = input$fill_var)
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)

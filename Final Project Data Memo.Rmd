@@ -1,0 +1,42 @@
+---
+title: "Final Project Data Memo"
+author: "Bradley Pawlow"
+date: "2/21/2021"
+output: html_document
+---
+
+## Introduction
+
+<BLOCKQUOTE><font size="4">After extensive research, I have decided to visualize the locations most involved in the media industry in the US. In other words, I want to discover what parts of the country are considered more "materialistic" based on media engagement data with movies, television shows, video games, and music. In addition to this, I want to see how the media industry has adapted to a changing society over the last few decades with datasets focused on industry sales and the top profitable companies. </font>
+  
+
+## Data Source
+
+<BLOCKQUOTE><font size="4">My data sources are mostly found on the Kaggle website and include movies, television shows, video games, and music along with their respective sales and reviews over the years. Here are some of the following datasets that I have already downloaded: 
+
+1. Music: https://www.kaggle.com/andrewmvd/music-sales
+2. Movies & Television Shows: https://www.kaggle.com/shivamb/netflix-shows
+3. Movie Industry: https://www.kaggle.com/danielgrijalvas/movies
+4. Video Games: https://www.kaggle.com/gregorut/videogamesales
+
+This data is separated based on different csv or excel files, so there will have to be a bit of cleaning and merging before working on the data visualization aspect of the project.</font>
+
+## Why this Data? 
+
+<BLOCKQUOTE><font size="4">The main reason I chose this data is because I am fascinated with how the media has influenced my childhood and has affected the lives of many Americans over the years. I also wanted to take a fiscal approach and analyze how the media industry can affect the economy. Moreover, I believe that this industry depends on cultural factors in which there may be statistical differences in sales and interests based on geographical location. By combining these different topics for my data analysis and visualization I can further understand how our entertainment has shifted to fit a more digitized world. Here are some additional questions of interests that I would consider exploring: 
+
+1. How have the sales changed over time? 
+2. What are some common themes/genres/topics that fuel success in sales in the media industry? 
+3. How does the media industry affect the overall growth of the economy? 
+4. What parts of the country prioritize more digitized/materialistic commodities such as movies, shows, music, video games, etc.? 
+
+
+</font>
+
+## Potential Data Issues 
+
+<BLOCKQUOTE><font size="4">There may be some frustrating issues when organizing and preparing my dataset. For example, I will need to determine how to deal with missing values in the dataset. More specifically, if there are years in which there are no sales accurately recorded, no reviews, and any other variable observations missing, then I plan on categorizing them as NA so that it does not negatively affect numeric calculations. In addition, I need to merge the various datasets of different media types for each separate year and eliminate unnecessary variables as part of the cleaning process. </font>
+
+## Conclusion
+
+<BLOCKQUOTE><font size="4">Although there may be some cleaning and merging involved, I anticipate focusing more on my data visualizations. My end goal is to at least discover valuable information that will be applicable to not only me, but to people around the country interested in the entertainment and media industries as well as economic behavior. I propose to have spend a week working on data cleaning, a week generating plot templates, a week designing and implementing various themes, and a week reviewing my work and ensuring the criteria is met. </font>

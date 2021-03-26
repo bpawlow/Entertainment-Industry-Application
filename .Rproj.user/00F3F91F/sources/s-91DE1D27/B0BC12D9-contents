@@ -1,0 +1,58 @@
+# Loaded Packages & Other R Scripts----
+
+library(tidyverse)
+library(visdat)
+library(janitor)
+
+# Data Importing ---- 
+
+### Establish vector of different media datasets
+
+file_vector <- dir("data/", pattern = "\\.csv$", full.names = TRUE)
+
+### Store data tables in a list
+
+file_list <- list()
+
+for (i in file_vector) {
+  file_list[[i]] <- read_csv(i)
+}
+
+## Store data tables in separate variables (with proper names)
+
+movies <- file_list[[1]]
+music <- file_list[[2]]
+ps4_game_sales <- file_list[[4]]
+spotify_new <- file_list[[5]]
+spotify_old <- file_list[[6]]
+vg_sales <-  file_list[[7]]
+xbox_game_sales <- file_list[[9]]
+
+# Data Cleaning ---- 
+
+spotify_new <- spotify_new %>% 
+  select(-X1) %>% 
+  clean_names()
+
+vg_sales <- vg_sales %>% 
+  clean_names() %>% 
+  filter(year <= 2017)
+
+## Missing data/summary statistics  
+vis_dat(movies)
+movies %>% summary()
+
+vis_dat(music)
+music %>% summary()
+
+vis_dat(ps4_game_sales)
+ps4_game_sales %>% summary()
+
+vis_dat(spotify_new)
+spotify_new %>% summary()
+
+vis_dat(vg_sales)
+vg_sales %>% summary()
+
+vis_dat(xbox_game_sales)
+xbox_game_sales %>% summary()
